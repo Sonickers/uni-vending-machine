@@ -3,4 +3,6 @@ class Money:
         self.stocked = stocked
 
     def get_change(self):
-        pass
+        money = 1
+        sums = money * 2
+        return sums
