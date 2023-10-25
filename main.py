@@ -1,6 +1,6 @@
-from vending.item import Item
-from vending.vending import VendingMachine
-from vending.money import Money
+from item import Item
+from vending import VendingMachine
+from money import Money
 
 
 stocked_money = {
