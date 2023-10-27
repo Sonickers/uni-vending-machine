@@ -14,7 +14,7 @@ class VendingMachine:
 
         if self.check_item_code(code):
             item = self.get_item(code)
-            print("Items price is: ", item.price)
+            print(f"Items price is: {item.price}")
         else:
             print("Wrong product code. Please try again.")
 
