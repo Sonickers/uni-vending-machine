@@ -26,8 +26,12 @@ class VendingMachine:
         return self.items.get(code)
 
     def service_mode(self):
-        print("Available options:\n111 - restock product\n222 - edit product\n333 - update spring cycle\n999 - Exit service mode")
-        service_code = input("Give service code")
+        print("\nAvailable options:\n"
+              + "111 - restock product\n"
+              + "222 - edit product\n"
+              + "333 - update spring cycle\n"
+              + "999 - Exit service mode\n")
+        service_code = input("Choice: ")
 
         if service_code == "111":
             print("Restocking...")
@@ -42,4 +46,4 @@ class VendingMachine:
             self.service_mode()
 
     def restock_product(self):
-        
+        pass
