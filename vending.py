@@ -10,6 +10,7 @@ class VendingMachine:
         code = input("Select product code: ")
         if code == "000":
             print("Starting service mode...")
+            self.service_mode()
             return
 
         if self.check_item_code(code):
@@ -23,3 +24,22 @@ class VendingMachine:
 
     def get_item(self, code):
         return self.items.get(code)
+
+    def service_mode(self):
+        print("Available options:\n111 - restock product\n222 - edit product\n333 - update spring cycle\n999 - Exit service mode")
+        service_code = input("Give service code")
+
+        if service_code == "111":
+            print("Restocking...")
+        elif service_code == "222":
+            print("Editing")
+        elif service_code == "333":
+            print("Spring cycles...")
+        elif service_code == "999":
+            print("Exiting the service mode...")
+        else:
+            print("\nWrong code. Try again.\n")
+            self.service_mode()
+
+    def restock_product(self):
+        
