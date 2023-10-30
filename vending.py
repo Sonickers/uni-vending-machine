@@ -1,7 +1,7 @@
 class VendingMachine:
-    def __init__(self, items, money):
+    def __init__(self, items, coins):
         self.items = items
-        self.money = money
+        self.coins = coins
 
     def vend(self, code, cash):
         print(code, cash)
@@ -16,6 +16,7 @@ class VendingMachine:
         if self.check_item_code(code):
             item = self.get_item(code)
             print(f"Items price is: {item.price}")
+            self.intake_money(item)
         else:
             print("Wrong product code. Please try again.")
 
@@ -45,5 +46,16 @@ class VendingMachine:
             print("\nWrong code. Try again.\n")
             self.service_mode()
 
-    def restock_product(self):
-        pass
+    def intake_money(self, item):
+        user_coins = []
+        print("We only accept 5[zl], 2[zl], 1[zl] and 50[gr].")
+        coin = int(input("Add coin: "))
+
+        if self.check_coins(coin):
+            user_coins.append(coin)
+            print("You've inserted", sum(user_coins), "zł/gr.")
+        else:
+            self.intake_money(item)
+
+    def check_coins(self, coin):
+        return coin in [5, 2, 1, 50]
