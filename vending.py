@@ -1,7 +1,7 @@
 class VendingMachine:
-    def __init__(self, items, coins):
+    def __init__(self, items, money):
         self.items = items
-        self.coins = coins
+        self.money = money
 
     def vend(self, code, cash):
         print(code, cash)
@@ -15,7 +15,7 @@ class VendingMachine:
 
         if self.check_item_code(code):
             item = self.get_item(code)
-            print(f"Items price is: {item.price}")
+            print(f"Items price is: {self.money.format(item.price)}")
             self.intake_money(item)
         else:
             print("Wrong product code. Please try again.")
@@ -35,11 +35,11 @@ class VendingMachine:
         service_code = input("Choice: ")
 
         if service_code == "111":
-            print("Restocking...")
+            print("Restocking product. Select product you want to restock: ")
         elif service_code == "222":
-            print("Editing")
+            print("Editing product. Select product you want to edit: ")
         elif service_code == "333":
-            print("Spring cycles...")
+            print("Choose which spring cycle you want to service: ")
         elif service_code == "999":
             print("Exiting the service mode...")
         else:
@@ -48,14 +48,19 @@ class VendingMachine:
 
     def intake_money(self, item):
         user_coins = []
-        print("We only accept 5[zl], 2[zl], 1[zl] and 50[gr].")
-        coin = int(input("Add coin: "))
+        coins_value = 0
 
-        if self.check_coins(coin):
-            user_coins.append(coin)
-            print("You've inserted", sum(user_coins), "zł/gr.")
-        else:
-            self.intake_money(item)
+        while coins_value < item.price:
+            print("We only accept 5[zl], 2[zl], 1[zl] and 50[gr].")
+            coin = int(input("Add coin: "))
+
+            if self.check_coins(coin):
+                user_coins.append(coin)
+                coins_value = self.money.value_for_coins(user_coins)
+                print(f"You've inserted {self.money.format(coins_value)}." \
+                    f" Items price is: {self.money.format(item.price)}")
+
+        return user_coins
 
     def check_coins(self, coin):
         return coin in [5, 2, 1, 50]
