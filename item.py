@@ -7,6 +7,9 @@ class Item:
     def is_cold(self):
         return False
 
+    def subtract_item(self):
+        self.quantity = self.quantity - 1
+
 class Drink(Item):
     pass
 
@@ -17,9 +20,3 @@ class Snack(Item):
 
     def is_cold(self):
         return self.cold
-
-# def use_item(item: Item):
-#     print(f"using {item.name} it is {'cold' if item.is_cold() else 'warm'}")
-
-# ice_cream = Snack("Ice Cream", "5zl", 20, True)
-# use_item(ice_cream)
