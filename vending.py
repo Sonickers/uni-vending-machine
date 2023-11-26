@@ -16,7 +16,8 @@ class VendingMachine:
         if self.check_item_code(code):
             item = self.get_item(code)
             print(f"Items price is: {self.money.format(item.price)}")
-            self.intake_money(item)
+            coins_change = self.money.get_change(item.price, self.intake_money(item))
+            print("Returning the change: ", coins_change)
         else:
             print("Wrong product code. Please try again.")
 
@@ -28,9 +29,9 @@ class VendingMachine:
 
     def service_mode(self):
         print("\nAvailable options:\n"
-              + "111 - restock product\n"
-              + "222 - edit product\n"
-              + "333 - update spring cycle\n"
+              + "111 - Restock product\n"
+              + "222 - Edit product\n"
+              + "333 - Update spring cycle\n"
               + "999 - Exit service mode\n")
         service_code = input("Choice: ")
 
@@ -39,7 +40,7 @@ class VendingMachine:
         elif service_code == "222":
             print("Editing product. Select product you want to edit: ")
         elif service_code == "333":
-            print("Choose which spring cycle you want to service: ")
+            print("Choose which spring cycle you want to update: ")
         elif service_code == "999":
             print("Exiting the service mode...")
         else:
