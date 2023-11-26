@@ -55,13 +55,10 @@ class VendingMachine:
             print("We only accept 5[zl], 2[zl], 1[zl] and 50[gr].")
             coin = int(input("Add coin: "))
 
-            if self.check_coins(coin):
+            if self.money.check_coins(coin):
                 user_coins.append(coin)
                 coins_value = self.money.value_for_coins(user_coins)
                 print(f"You've inserted {self.money.format(coins_value)}." \
                     f" Items price is: {self.money.format(item.price)}")
 
         return user_coins
-
-    def check_coins(self, coin):
-        return coin in [5, 2, 1, 50]

@@ -4,6 +4,9 @@ class Money:
     def __init__(self, stocked) -> None:
         self.stocked = stocked
 
+    def check_coins(self, coin):
+        return coin in [5, 2, 1, 50]
+
     def get_change(self, price, input_coins):
         input_value = self.value_for_coins(input_coins)
         change = input_value - price
