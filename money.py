@@ -33,7 +33,7 @@ class Money:
     def value_for_coins(self, coins):
         return sum(coin if coin > 5 else coin * 100 for coin in coins)
 
-    def format(self, value):
+    def format_value(self, value):
         if value < 100:
             return f"{value} gr"
 
