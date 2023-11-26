@@ -33,7 +33,7 @@ class Money:
         return cash_change
 
     def value_for_coins(self, coins):
-        if self.check_coins(coins):
+        if not self.check_coins(coins):
             raise ValueError("Invalid input")
         return sum(coin if coin > 5 else coin * 100 for coin in coins)
 
