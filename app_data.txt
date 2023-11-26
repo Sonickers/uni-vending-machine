@@ -1,0 +1,14 @@
+s, a1, 10
+s, a2, 10
+s, a3, 10
+s, a4, 10
+
+i, d, a1, coca-cola, 500, 10
+i, d, a2, sprite, 400, 10
+i, s, a3, mars, 350, 5
+i, s, a4, snickers, 350, 5
+
+m, 5, 20
+m, 2, 30
+m, 1, 40
+m, 50, 50
