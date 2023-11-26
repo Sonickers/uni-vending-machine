@@ -15,7 +15,7 @@ class VendingMachine:
 
         if self.check_item_code(code):
             item = self.get_item(code)
-            print(f"Items price is: {self.money.format(item.price)}")
+            print(f"Items price is: {self.money.format_value(item.price)}")
             coins_change = self.money.get_change(item.price, self.intake_money(item))
             print("Returning the change: ", coins_change)
         else:
@@ -58,7 +58,7 @@ class VendingMachine:
             if self.money.check_coins(coin):
                 user_coins.append(coin)
                 coins_value = self.money.value_for_coins(user_coins)
-                print(f"You've inserted {self.money.format(coins_value)}." \
-                    f" Items price is: {self.money.format(item.price)}")
+                print(f"You've inserted {self.money.format_value(coins_value)}." \
+                    f" Items price is: {self.money.format_value(item.price)}")
 
         return user_coins

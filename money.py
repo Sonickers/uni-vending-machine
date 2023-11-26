@@ -5,6 +5,8 @@ class Money:
         self.stocked = stocked
 
     def check_coins(self, coin):
+        if type(coin) is list:
+            return all(self.check_coins(c) for c in coin)
         return coin in [5, 2, 1, 50]
 
     def get_change(self, price, input_coins):
@@ -31,6 +33,8 @@ class Money:
         return cash_change
 
     def value_for_coins(self, coins):
+        if self.check_coins(coins):
+            raise ValueError("Invalid input")
         return sum(coin if coin > 5 else coin * 100 for coin in coins)
 
     def format_value(self, value):
