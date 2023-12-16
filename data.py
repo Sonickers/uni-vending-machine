@@ -1,17 +1,4 @@
-from item import Item
-
-# TODO: delete these commented out values later
-# coins = {"5": 10, "2": 10, "1": 10, "50": 20}
-# items = {
-#     "A1": Item("Coke", 350, 10),
-#     "A2": Item("Water", 150, 10),
-#     "A3": Item("Sprite", 350, 10),
-#     "A4": Item("Fanta", 350, 10),
-#     "B1": Item("Coconaut", 450, 10),
-#     "B2": Item("Yogurt", 300, 10),
-#     "B3": Item("Iced Coffee", 500, 10),
-#     "B4": Item("Milk", 250, 10),
-# }
+from item import Drink, Snack
 
 def parse_data_file(file_lines):
     """Reads given `file_lines` line by line in a for loop
@@ -26,9 +13,24 @@ def parse_data_file(file_lines):
         tuple[dict, dict, dict]: tuple with dicts of: coins, items and springs
     """
 
-    # TODO: parse each line and build out the return values
-    coins = {}
-    items = {}
     springs = {}
+    items = {}
+    coins = {}
+
+    for line in file_lines:
+        if line.strip() == "":
+            continue
+        row = line.strip().split(", ")
+
+        if row[0] == 's':
+            springs[row[1]] = row[2]
+        elif row[0] == 'i':
+            if row[1] == 'd':
+                items[row[2]] = Drink(row[3], int(row[4]), int(row[5]))
+            else:
+                items[row[2]] = Snack(row[3], int(row[4]), int(row[5]), row[6] == '1')
+        elif row[0] == 'm':
+            coins[int(row[1])] = int(row[2])
 
     return (coins, items, springs)
+ 
