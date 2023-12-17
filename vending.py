@@ -1,3 +1,4 @@
+from data import update_data_file
 class VendingMachine:
     def __init__(self, items, money, springs):
         self.items = items
@@ -20,7 +21,7 @@ class VendingMachine:
             coins_change = self.money.get_change(item.price, self.intake_money(item))
             print("Returning the change: ", coins_change)
             item.quantity -= 1
-            # TODO: save current items,springs and money state to file -> example: self.data_updater.update(self.items, self.springs, self.money.stocked)
+            update_data_file(self.springs, self.items, self.money.stocked)
         else:
             print("Wrong product code. Please try again.")
 
