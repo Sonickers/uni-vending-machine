@@ -41,7 +41,7 @@ def update_data_file(springs, items, coins):
         f.write("\n")
 
         for code, item in items.items():
-            if type.item == Drink:
+            if type(item) == Drink:
                 f.write(f"i, d, {code}, {item.name}, {item.price}, {item.quantity}\n")
             else:
                 f.write(f"i, s, {code}, {item.name}, {item.price}, {item.quantity}, {1 if item.is_cold() else 0}\n")
