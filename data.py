@@ -23,7 +23,7 @@ def parse_data_file(file_lines):
         row = line.strip().split(", ")
 
         if row[0] == 's':
-            springs[row[1]] = row[2]
+            springs[row[1]] = int(row[2])
         elif row[0] == 'i':
             if row[1] == 'd':
                 items[row[2]] = Drink(row[3], int(row[4]), int(row[5]))

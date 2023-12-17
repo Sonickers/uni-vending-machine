@@ -21,6 +21,7 @@ class VendingMachine:
             coins_change = self.money.get_change(item.price, self.intake_money(item))
             print("Returning the change: ", coins_change)
             item.quantity -= 1
+            self.springs[code] -= 1
             update_data_file(self.springs, self.items, self.money.stocked)
         else:
             print("Wrong product code. Please try again.")
