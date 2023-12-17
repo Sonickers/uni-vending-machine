@@ -1,13 +1,14 @@
 class VendingMachine:
-    def __init__(self, items, money):
+    def __init__(self, items, money, springs):
         self.items = items
         self.money = money
+        self.springs = springs
 
     def vend(self, code, cash):
         print(code, cash)
 
     def start_app(self):
-        code = input("Select product code: ")
+        code = input("Select product code: ").lower()
         if code == "000":
             print("Starting service mode...")
             self.service_mode()
@@ -18,6 +19,8 @@ class VendingMachine:
             print(f"Items price is: {self.money.format_value(item.price)}")
             coins_change = self.money.get_change(item.price, self.intake_money(item))
             print("Returning the change: ", coins_change)
+            # TODO: decrease item quantity by 1
+            # TODO: save current items,springs and money state to file -> example: self.data_updater.update(self.items, self.springs, self.money.stocked)
         else:
             print("Wrong product code. Please try again.")
 

@@ -10,6 +10,6 @@ with open("app_data.txt", encoding="utf-8") as f:
 coins, items, springs = parse_data_file(app_data_lines)
 
 money = Money(coins)
-vending_machine = VendingMachine(items, money)
+vending_machine = VendingMachine(items, money, springs)
 
 vending_machine.start_app()
