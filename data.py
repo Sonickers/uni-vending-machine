@@ -33,4 +33,15 @@ def parse_data_file(file_lines):
             coins[int(row[1])] = int(row[2])
 
     return (coins, items, springs)
- 
+
+def update_data_file(springs, items, coins):
+    with open('app_data.txt', 'w', encoding="utf-8") as f:
+        for k, v in springs:
+            f.write(f"s, {k}, {v}")
+
+        for k, v in items:
+            f.write(f"i, d, {k}, {v.name}, {v.price}, {v.quantity}")
+            # zapisz items w formie i, d, a1, coca-cola, 500, 10
+
+        for k, v in coins.items():
+            f.write(f"m, {k}, {v}")
