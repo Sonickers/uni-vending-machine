@@ -36,12 +36,17 @@ def parse_data_file(file_lines):
 
 def update_data_file(springs, items, coins):
     with open('app_data.txt', 'w', encoding="utf-8") as f:
-        for k, v in springs:
-            f.write(f"s, {k}, {v}")
+        for spring, cycles in springs.items():
+            f.write(f"s, {spring}, {cycles}\n")
+        f.write("\n")
 
-        for k, v in items:
-            f.write(f"i, d, {k}, {v.name}, {v.price}, {v.quantity}")
-            # zapisz items w formie i, d, a1, coca-cola, 500, 10
+        for code, item in items.items():
+            if type.item == Drink:
+                f.write(f"i, d, {code}, {item.name}, {item.price}, {item.quantity}\n")
+            else:
+                f.write(f"i, s, {code}, {item.name}, {item.price}, {item.quantity}, {1 if item.is_cold() else 0}\n")
+        f.write("\n")
 
-        for k, v in coins.items():
-            f.write(f"m, {k}, {v}")
+        for nominal, amount in coins.items():
+            f.write(f"m, {nominal}, {amount}\n")
+        f.write("\n")
