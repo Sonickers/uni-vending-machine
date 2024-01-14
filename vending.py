@@ -1,4 +1,6 @@
 from data import update_data_file
+
+
 class VendingMachine:
     def __init__(self, items, money, springs):
         self.items = items
@@ -17,12 +19,24 @@ class VendingMachine:
 
         if self.check_item_code(code):
             item = self.get_item(code)
+
+            if item.quantity == 0 or self.springs[code] == 0:
+                print("Sorry, this item is out of stock or unable to buy.")
+                return
+
             print(f"Items price is: {self.money.format_value(item.price)}")
             coins_change = self.money.get_change(item.price, self.intake_money(item))
+
+            if coins_change is None:
+                print(
+                    "Sorry, can't proceed due to lack of change. Try again with other coins."
+                )
+                return
+
             print("Returning the change: ", coins_change)
             item.quantity -= 1
             self.springs[code] -= 1
-            update_data_file(self.springs, self.items, self.money.stocked)
+            self.update_data_file()
         else:
             print("Wrong product code. Please try again.")
 
@@ -33,24 +47,30 @@ class VendingMachine:
         return self.items.get(code)
 
     def service_mode(self):
-        print("\nAvailable options:\n"
-              + "111 - Restock product\n"
-              + "222 - Edit product\n"
-              + "333 - Update spring cycle\n"
-              + "999 - Exit service mode\n")
+        print(
+            "\nAvailable options:\n"
+            + "111 - Restock item\n"
+            + "222 - Restock cash\n"
+            + "333 - Change item price\n"
+            + "444 - Update springs\n"
+            + "555 - Exit service mode\n"
+        )
         service_code = input("Choice: ")
 
         if service_code == "111":
-            print("Restocking product. Select product you want to restock: ")
+            self.service_restock_item()
         elif service_code == "222":
-            print("Editing product. Select product you want to edit: ")
+            self.service_restock_cash()
         elif service_code == "333":
-            print("Choose which spring cycle you want to update: ")
-        elif service_code == "999":
+            self.service_edit_product()
+        elif service_code == "444":
+            self.service_springs()
+        elif service_code == "555":
             print("Exiting the service mode...")
         else:
             print("\nWrong code. Try again.\n")
             self.service_mode()
+        self.update_data_file()
 
     def intake_money(self, item):
         user_coins = []
@@ -63,7 +83,58 @@ class VendingMachine:
             if self.money.check_coins(coin):
                 user_coins.append(coin)
                 coins_value = self.money.value_for_coins(user_coins)
-                print(f"You've inserted {self.money.format_value(coins_value)}." \
-                    f" Items price is: {self.money.format_value(item.price)}")
+                remaining = max([item.price - coins_value, 0])
+                print(
+                    f"You've inserted {self.money.format_value(coins_value)}."
+                    f" Remaining amount: {self.money.format_value(remaining)}"
+                )
 
         return user_coins
+
+    def service_springs(self):
+        spring_code = input("Choose which spring cycle you want to update: ")
+        self.springs[spring_code.lower()] = 10
+        print("Springs are updated to 10.")
+
+    def service_restock_cash(self):
+        nominal = int(input("What nominal you want to restock?"))
+
+        if not self.money.check_coins(nominal):
+            print("Invalid coin.")
+            return
+
+        restock_amount = int(input("How many coins do you want to add?"))
+        self.money.add_coin(nominal, restock_amount)
+
+    def service_restock_item(self):
+        item_code = input(
+            "Restocking product. Select product you want to restock: "
+        ).lower()
+        if not self.check_item_code(item_code):
+            print("Wrong item code")
+            return
+
+        item = self.get_item(item_code)
+        restock_quantity = input(
+            f"This item quantity is: {item.quantity}. How many do you want to add? "
+        )
+        item.quantity += int(restock_quantity)
+        print("Item quantity is updated.")
+
+    def service_edit_product(self):
+        item_code = input(
+            "Change item price. Select item you want to change price for: "
+        ).lower()
+        if not self.check_item_code(item_code):
+            print("Wrong item code")
+            return
+
+        item = self.get_item(item_code)
+        edit_price = input(
+            f"This item price is: {item.price}. What price do you want to set for this item? "
+        )
+        item.price = int(edit_price)
+        print("Item price is updated.")
+
+    def update_data_file(self):
+        update_data_file(self.springs, self.items, self.money.get_stocked())
