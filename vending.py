@@ -1,4 +1,5 @@
 from data import update_data_file
+from item import Snack, Drink
 
 
 class VendingMachine:
@@ -53,7 +54,8 @@ class VendingMachine:
             + "222 - Restock cash\n"
             + "333 - Change item price\n"
             + "444 - Update springs\n"
-            + "555 - Exit service mode\n"
+            + "555 - Update item\n"
+            + "999 - Exit service mode\n"
         )
         service_code = input("Choice: ")
 
@@ -62,10 +64,12 @@ class VendingMachine:
         elif service_code == "222":
             self.service_restock_cash()
         elif service_code == "333":
-            self.service_edit_product()
+            self.service_edit_item()
         elif service_code == "444":
             self.service_springs()
         elif service_code == "555":
+            self.service_update_item()
+        elif service_code == "999":
             print("Exiting the service mode...")
         else:
             print("\nWrong code. Try again.\n")
@@ -107,9 +111,7 @@ class VendingMachine:
         self.money.add_coin(nominal, restock_amount)
 
     def service_restock_item(self):
-        item_code = input(
-            "Restocking product. Select product you want to restock: "
-        ).lower()
+        item_code = input("Restocking item. Select item you want to restock: ").lower()
         if not self.check_item_code(item_code):
             print("Wrong item code")
             return
@@ -121,7 +123,7 @@ class VendingMachine:
         item.quantity += int(restock_quantity)
         print("Item quantity is updated.")
 
-    def service_edit_product(self):
+    def service_edit_item(self):
         item_code = input(
             "Change item price. Select item you want to change price for: "
         ).lower()
@@ -135,6 +137,31 @@ class VendingMachine:
         )
         item.price = int(edit_price)
         print("Item price is updated.")
+
+    def service_update_item(self):
+        item_code = input("Update item. Select item you want to update: ").lower()
+        if not self.check_item_code(item_code):
+            print("Wrong item code")
+            return
+
+        item = self.get_item(item_code)
+        print(f"Current item: {item.name} {item.price}.")
+
+        snack_or_drink = (
+            input("Is the new item a Snack or a Drink? [s/d] ").lower().strip()[0]
+        )
+
+        new_name = input("New name: ")
+        new_price = input("New price: ")
+
+        new_item = (
+            Snack(new_name, new_price, item.quantity, item.is_cold())
+            if snack_or_drink == "s"
+            else Drink(new_name, new_price, item.quantity)
+        )
+
+        self.items[item_code] = new_item
+        print("Item is updated.")
 
     def update_data_file(self):
         update_data_file(self.springs, self.items, self.money.get_stocked())
