@@ -1,5 +1,6 @@
 from item import Drink, Snack
 
+
 def parse_data_file(file_lines):
     """Reads given `file_lines` line by line in a for loop
     - each line starting with 's' is a spring
@@ -22,20 +23,21 @@ def parse_data_file(file_lines):
             continue
         row = line.strip().split(", ")
 
-        if row[0] == 's':
+        if row[0] == "s":
             springs[row[1]] = int(row[2])
-        elif row[0] == 'i':
-            if row[1] == 'd':
+        elif row[0] == "i":
+            if row[1] == "d":
                 items[row[2]] = Drink(row[3], int(row[4]), int(row[5]))
             else:
-                items[row[2]] = Snack(row[3], int(row[4]), int(row[5]), row[6] == '1')
-        elif row[0] == 'm':
+                items[row[2]] = Snack(row[3], int(row[4]), int(row[5]), row[6] == "1")
+        elif row[0] == "m":
             coins[int(row[1])] = int(row[2])
 
     return (coins, items, springs)
 
+
 def update_data_file(springs, items, coins):
-    with open('app_data.txt', 'w', encoding="utf-8") as f:
+    with open("app_data.txt", "w", encoding="utf-8") as f:
         for spring, cycles in springs.items():
             f.write(f"s, {spring}, {cycles}\n")
         f.write("\n")
@@ -44,9 +46,11 @@ def update_data_file(springs, items, coins):
             if type(item) == Drink:
                 f.write(f"i, d, {code}, {item.name}, {item.price}, {item.quantity}\n")
             else:
-                f.write(f"i, s, {code}, {item.name}, {item.price}, {item.quantity}, {1 if item.is_cold() else 0}\n")
+                f.write(
+                    f"i, s, {code}, {item.name}, {item.price}, {item.quantity},"
+                    f" {1 if item.is_cold() else 0}\n"
+                )
         f.write("\n")
 
         for nominal, amount in coins.items():
             f.write(f"m, {nominal}, {amount}\n")
-        f.write("\n")
