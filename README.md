@@ -25,4 +25,3 @@ With the development environment already set up, run the following command to ru
 ```shell
 python -m pytest
 ```
-README.md
