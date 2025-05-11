@@ -165,6 +165,3 @@ class VendingMachine:
 
     def update_data_file(self):
         update_data_file(self.springs, self.items, self.money.get_stocked())
-
-    def testowafunkcja():
-        return "test"
